@@ -24,7 +24,7 @@ class Fire_detect:
     self.file_name = input("Enter the filename or the path to the file:- ")
 
     self.run_name = input("Enter the result filename (Output Filename):- ")
-    
+
     self.folder = f'{self.run_name} Data Results'
 
     os.makedirs(self.folder, exist_ok=True)
@@ -56,6 +56,8 @@ class Fire_detect:
     self.height_detection()
     self.height_analysis()
     self.color_detection()
+
+    self.save()
 
     self.elapsed_time = time.time() - self.start_time
 
@@ -276,35 +278,69 @@ class Fire_detect:
     avg_top_g = np.average(self.g_value_top)
     avg_top_r = np.average(self.r_value_top)
 
-    avg_top_val = np.array([avg_top_b, avg_top_g, avg_top_r])
+    self.avg_top_val = np.array([avg_top_b, avg_top_g, avg_top_r])
 
     print(" ")
-    print(f"The top pixel average BGR values = {avg_top_val}")
+    print(f"The top pixel average BGR values = {self.avg_top_val}")
 
     avg_mid_b = np.average(self.b_value_mid)
     avg_mid_g = np.average(self.g_value_mid)
     avg_mid_r = np.average(self.r_value_mid)
 
-    avg_mid_val = np.array([avg_mid_b, avg_mid_g, avg_mid_r])
+    self.avg_mid_val = np.array([avg_mid_b, avg_mid_g, avg_mid_r])
 
     print(" ")
-    print(f"The mid pixel average BGR values = {avg_mid_val}")
+    print(f"The mid pixel average BGR values = {self.avg_mid_val}")
 
     avg_bot_b = np.average(self.b_value_bot)
     avg_bot_g = np.average(self.g_value_bot)
     avg_bot_r = np.average(self.r_value_bot)
 
-    avg_bot_val = np.array([avg_bot_b, avg_bot_g, avg_bot_r])
+    self.avg_bot_val = np.array([avg_bot_b, avg_bot_g, avg_bot_r])
 
     print(" ")
-    print(f"The bot pixel average BGR values = {avg_bot_val}")
+    print(f"The bot pixel average BGR values = {self.avg_bot_val}")
 
-    self.save_color_as_png(avg_bot_val, f"{self.folder}/Average bot pixel BGR color.png")
-    self.save_color_as_png(avg_top_val, f"{self.folder}/Average top pixel BGR color.png")
-    self.save_color_as_png(avg_mid_val, f"{self.folder}/Average mid pixel BGR color.png")
+    self.save_color_as_png(self.avg_bot_val, f"{self.folder}/Average bot pixel BGR color.png")
+    self.save_color_as_png(self.avg_top_val, f"{self.folder}/Average top pixel BGR color.png")
+    self.save_color_as_png(self.avg_mid_val, f"{self.folder}/Average mid pixel BGR color.png")
 
     print(" ")
     print(f"The color of each average BGR values for top, mid, bot pixel are saved.")
+
+  def save(self):
+    results = f"""The maximum height of the flame in pixels: {self.max_height:.2f}
+    \nThe minimum height of the flame in pixels: {self.min_height:.2f}
+    \nThe standard deviation of the fluctuating height of the flame in pixels: {self.std_height:.2f}
+    \nThe mean height of the flame in pixels: {self.mean_height:.2f}
+    \nThe top pixel average BGR values = {self.avg_top_val}
+    \nThe mid pixel average BGR values = {self.avg_mid_val}
+    \nThe bot pixel average BGR values = {self.avg_bot_val}"""
+
+    with open(f"{self.folder}/results_{self.run_name}.txt", "w") as file:
+      file.write(results)
+
+  def plot_color(self):
+    top_bgr = self.avg_top_val[::-1]
+    color_image_top = np.full((1, 1, 3), top_bgr, dtype=np.uint8)
+
+    mid_bgr = self.avg_mid_val[::-1]
+    color_image_mid = np.full((1, 1, 3), mid_bgr, dtype=np.uint8)
+
+    bot_bgr = self.avg_bot_val[::-1]
+    color_image_bot = np.full((1, 1, 3), bot_bgr, dtype=np.uint8)
+
+    plt.imshow(color_image_top)
+    plt.axis('off')
+    plt.show()
+
+    plt.imshow(color_image_mid)
+    plt.axis('off')
+    plt.show()
+
+    plt.imshow(color_image_bot)
+    plt.axis('off')
+    plt.show()
 
 
 test = Fire_detect()
