@@ -1,0 +1,13 @@
+The maximum height of the flame in pixels: 314.36 
+    
+The minimum height of the flame in pixels: 197.38 
+    
+The standard deviation of the fluctuating height of the flame in pixels: 23.55
+    
+The mean height of the flame in pixels: 257.38
+    
+The top pixel average BGR values = [     32.467      66.867      82.067]
+    
+The mid pixel average BGR values = [     154.53       199.2      187.53]
+    
+The bot pixel average BGR values = [     252.67       254.8       221.6]
