@@ -32,6 +32,6 @@ Use the  below code to download the datset:
 ## Evaluation
 The below chart show  the loss , mAP (mean Average Precision) score for the train, test,validation set.
 
-![alt text](training models/flame normal dataset epo 100/results.pmg)
+    ![alt text](training models/flame normal dataset epo 100/results.pmg)
  
 https://uoe-my.sharepoint.com/:u:/g/personal/s2016278_ed_ac_uk/ERX--PRjkfVGni1fgSEWquYBCQJs9kdJki7P-DJTn_Jq8Q?e=2GqtTf
